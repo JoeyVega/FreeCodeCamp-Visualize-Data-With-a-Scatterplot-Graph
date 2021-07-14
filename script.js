@@ -82,7 +82,11 @@ d3.json(
     .domain([X_SCALE_MIN, X_SCALE_MAX])
     .range([0, CHART_WIDTH]);
 
-  const X_AXIS = d3.axisBottom().scale(X_SCALE).tickFormat(d3.timeFormat("%Y"));
+  const X_AXIS = d3
+    .axisBottom()
+    .scale(X_SCALE)
+    .tickFormat(d3.timeFormat("%Y"))
+    .tickSizeOuter(0);
 
   CHART.append("g")
     .attr("id", "x-axis")
@@ -106,7 +110,8 @@ d3.json(
   const Y_AXIS = d3
     .axisLeft()
     .scale(Y_SCALE)
-    .tickFormat(d3.timeFormat("%M:%S"));
+    .tickFormat(d3.timeFormat("%M:%S"))
+    .tickSizeOuter(0);
 
   CHART.append("g").attr("id", "y-axis").call(Y_AXIS);
 
