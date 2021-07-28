@@ -1,7 +1,7 @@
 const CHART_MARGIN = {
   TOP: 150,
-  RIGHT: 100,
-  BOTTOM: 100,
+  RIGHT: 150,
+  BOTTOM: 150,
   LEFT: 150
 };
 const CHART_WIDTH = 1000 - CHART_MARGIN.LEFT - CHART_MARGIN.RIGHT;
@@ -9,7 +9,9 @@ const CHART_HEIGHT = 600 - CHART_MARGIN.TOP - CHART_MARGIN.BOTTOM;
 
 const CHART_DIV = d3.select("#chart");
 
-const TOOLTIP = CHART_DIV.append("div")
+const TOOLTIP = d3
+  .select("body")
+  .append("div")
   .attr("id", "tooltip")
   .style("opacity", 0);
 
@@ -122,11 +124,12 @@ d3.json(
     .attr("class", "dot")
     .attr("data-xvalue", (d) => d.Year)
     .attr("data-yvalue", (d) => d.Time)
-    .attr("r", 6)
+    .attr("r", 8)
     .attr("cx", (d) => X_SCALE(d.Year))
     .attr("cy", (d) => Y_SCALE(d.Time))
     .style("fill", (d) => COLOR(COLOR_VALUE(d)))
     .on("mouseover", (d) => {
+    console.log(d3.event.pageY)
       TOOLTIP.attr("data-year", d.Year)
         .html(
           d.Name +
@@ -144,11 +147,8 @@ d3.json(
             "<br><br>" +
             d.Doping
         )
-        .style("left", CHART_MARGIN.LEFT + X_SCALE(d.Year) + 10 + "px")
-        .style(
-          "bottom",
-          CHART_HEIGHT + CHART_MARGIN.BOTTOM - Y_SCALE(d.Time) + 10 + "px"
-        );
+        .style("left", d3.event.pageX + 20 + "px")
+        .style("top", d3.event.pageY  + 10 +  "px");
       TOOLTIP.transition().duration(200).style("opacity", 0.9);
     })
     .on("mouseout", (d) => {
